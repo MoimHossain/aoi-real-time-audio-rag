@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36025.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzOpenAI.Rag.Rtc", "AzOpenAI.Rag.Rtc\AzOpenAI.Rag.Rtc.csproj", "{5A926F82-9529-4385-8F82-458A4AD6C91F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzOpenAI.Rag.Rtc.Shared", "AzOpenAI.Rag.Rtc.Shared\AzOpenAI.Rag.Rtc.Shared.csproj", "{522BF6C2-F162-45AA-9292-8BD2A5987ED9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A926F82-9529-4385-8F82-458A4AD6C91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A926F82-9529-4385-8F82-458A4AD6C91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A926F82-9529-4385-8F82-458A4AD6C91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A926F82-9529-4385-8F82-458A4AD6C91F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{522BF6C2-F162-45AA-9292-8BD2A5987ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{522BF6C2-F162-45AA-9292-8BD2A5987ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{522BF6C2-F162-45AA-9292-8BD2A5987ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{522BF6C2-F162-45AA-9292-8BD2A5987ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73C9AEEB-314B-4714-B39B-1D8047BC906C}
+	EndGlobalSection
+EndGlobal

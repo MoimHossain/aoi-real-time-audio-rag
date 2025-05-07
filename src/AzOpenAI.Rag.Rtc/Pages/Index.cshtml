@@ -1,0 +1,47 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Real-time Audio Conversation";
+}
+
+<div class="conversation-container">
+    <div class="conversation-card">
+        <h4>Realtime RAG</h4>
+        <p>
+            You can speak to the Azure Open AI model directly form here using WebRTC.
+            <br/>
+        
+            The model will use your data as knowledge base to ground the responses to your context.
+        </p>
+        <p>
+            &nbsp;
+        </p>
+        
+        <div class="row align-items-center g-3">
+            <div class="col-auto">
+                <div class="input-group">
+                    <label class="input-group-text" for="voiceSelect">Voice</label>
+                    <select id="voiceSelector" class="form-select" style="min-width: 100px;">
+                        <option value="alloy">Alloy</option>                        
+                        <option value="ballad">Ballad</option>
+                        <option value="echo">Echo</option>
+                        <option value="sage">Sage</option>
+                        <option value="shimmer">Shimmer</option>
+                        <option value="verse">Verse</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button id="btnBeginSession" type="button" class="btn btn-primary conversation-btn" onclick="javascript:beginSessionAsync()">
+                    <i class="bi bi-mic-fill"></i>
+                    Start Conversation
+                </button>
+            </div>
+        </div>
+
+        <div id="errorMessageContainer" class="alert alert-danger mt-3" style="display: none;">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+</div>
