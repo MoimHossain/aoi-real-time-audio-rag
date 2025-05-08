@@ -12,12 +12,6 @@ function hideHtmlElement(id) {
         element.style.display = "none";
     }
 }
-function getWeather() {
-    return {
-        temperature: "16",
-        unit: "Celsius"
-    };
-}
 
 function logMessage(message) {
     console.log(message);
@@ -64,20 +58,20 @@ const OAI_RTC_EVENT_HANDLERS = {
         const event = {
             type: "session.update",
             session: {
-                instructions: "You are a helpful AI assistant responding in natural, English language. When asked about the weather, you must use the get_weather tool to provide the current weather information. Always use the tool, do not make up weather information.",
+                instructions: "You are a helpful AI assistant for Enterprise, English is your default language. You must search the data from Enterprise using 'search' tool and response based on search result. If search result empty, politely decline. But never answer that is not based on search result.",
                 tools: [{
                     type: "function",
-                    name: "get_weather",
-                    description: "Get the current weather information",
+                    name: "search",
+                    description: "Search enterprise information",
                     parameters: {
                         type: "object",
                         properties: {
-                            query: {
+                            searchKey: {
                                 type: "string",
-                                description: "Weather query"
+                                description: "Search Key or phrase"
                             }
                         },
-                        required: ["query"]
+                        required: ["searchKey"]
                     }
                 }],
                 tool_choice: "auto"
@@ -97,35 +91,41 @@ const OAI_RTC_EVENT_HANDLERS = {
         logMessage("Session ended.");
     },
     "response.done": async function (realtimeEvent) {
-        if (realtimeEvent.response
-            && realtimeEvent.response.output
-            && realtimeEvent.response.output.length > 0) {
-            const output = realtimeEvent.response.output[0];
-            if (output.type === "function_call") {
-                const response = {
-                    type: "response.create"
-                };
-                setTimeout(() => {
-                    window.dataChannel.send(JSON.stringify(response));
-                }, 100);
-            }
-        }
+        logMessage(realtimeEvent);
     },
     "response.output_item.done": async function (realtimeEvent) {
         if (realtimeEvent.item && realtimeEvent.item.type === "function_call") {
             const item = realtimeEvent.item;
-            if (item.name === "get_weather") {
-                logMessage("Getting weather information...");
-                const weatherResponse = getWeather();
-                const response = {
-                    type: "conversation.item.create",
-                    item: {
-                        type: "function_call_output",
-                        call_id: item.call_id,
-                        output: JSON.stringify(weatherResponse)
+            if (item.name === "search") {                
+                logMessage("Searching information...", realtimeEvent);              
+
+                const response = await fetch("/api/search", {
+                    method: "POST",
+                    body: item.arguments,
+                    headers: {
+                        "Content-Type": "application/json"
                     }
-                };                
-                window.dataChannel.send(JSON.stringify(response));
+                });
+                if (response.ok) {                    
+                    const searchResult = await response.json();
+                    logMessage(searchResult);
+                    
+                    const chatResponse = {
+                        type: "conversation.item.create",
+                        item: {
+                            type: "function_call_output",
+                            call_id: item.call_id,
+                            output: JSON.stringify(searchResult)
+                        }
+                    };                
+                    window.dataChannel.send(JSON.stringify(chatResponse));
+
+                    setTimeout(() => {
+                        window.dataChannel.send(JSON.stringify({
+                            type: "response.create"
+                        }));
+                    }, 100);    
+                }
             }
         }
     }
@@ -138,8 +138,7 @@ async function createDataChannel() {
     window.dataChannel.addEventListener('close', () => { logMessage('Data channel is closed'); });
 
     window.dataChannel.addEventListener('message', (event) => {
-        const realtimeEvent = JSON.parse(event.data);
-        logMessage(realtimeEvent);
+        const realtimeEvent = JSON.parse(event.data);        
         // find the handler for the event type
         const handler = OAI_RTC_EVENT_HANDLERS[realtimeEvent.type];
         if (handler) { handler(realtimeEvent); }
@@ -193,3 +192,39 @@ async function beginSessionAsync() {
     }
 }
 
+
+
+/* Examples
+       window.dataChannel.send(JSON.stringify({
+           type: "conversation.item.create",
+           item: {
+               type: "message",
+               role: 'assistant',
+               content: [{
+                   type: 'input_text',
+                   text: 'Ask the user to wait while we are searching for information'
+               }]
+           }
+       }));
+       window.dataChannel.send(JSON.stringify({
+           type: "response.create",
+           response: {
+               instructions: "Wait for search to complete."
+           }
+       }));
+       
+       
+*/
+/*if (realtimeEvent.response
+    && realtimeEvent.response.output
+    && realtimeEvent.response.output.length > 0) {
+    const output = realtimeEvent.response.output[0];
+    if (output.type === "function_call") {
+        const response = {
+            type: "response.create"
+        };
+        setTimeout(() => {
+            window.dataChannel.send(JSON.stringify(response));
+        }, 100);
+    }
+}*/

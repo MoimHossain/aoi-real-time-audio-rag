@@ -21,5 +21,6 @@ app.MapRazorPages().WithStaticAssets();
 var apiGroup = app.MapGroup("/api");
 var sessionApiGroup = apiGroup.MapGroup("/session");
 
+apiGroup.MapPost("/search", new SearchEndpoint().HandleAsync).WithOpenApi();
 sessionApiGroup.MapPost("/begin", new SessionEndpoint().HandleAsync).WithOpenApi();
 app.Run();
