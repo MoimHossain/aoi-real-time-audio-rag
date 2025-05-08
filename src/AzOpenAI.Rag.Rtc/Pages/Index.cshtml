@@ -32,9 +32,15 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button id="btnBeginSession" type="button" class="btn btn-primary conversation-btn" onclick="javascript:beginSessionAsync()">
+                <button id="btnBeginSession" style="display: block;" type="button" class="btn btn-primary conversation-btn" onclick="javascript:beginSessionAsync()">
                     <i class="bi bi-mic-fill"></i>
-                    Start Conversation
+                    Start
+                </button>
+            </div>
+            <div class="col-auto">
+                <button id="btnStopSession" style="display: none;" type="button" class="btn btn-danger conversation-btn" onclick="javascript:stopSession()">
+                    <i class="bi bi-stop-fill"></i>
+                    Stop
                 </button>
             </div>
         </div>
