@@ -32,10 +32,8 @@ body {
 
 /* Conversation styles */
 .conversation-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 80vh;
+    padding: 2rem 0;
 }
 
 .conversation-card {
@@ -63,4 +61,48 @@ body {
 
 .conversation-btn i {
     margin-right: 10px;
+}
+
+/* Sidebar Panel styles */
+.sidebar-panel {
+    margin: 2rem 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: calc(100vh - 4rem);
+    position: sticky;
+    top: 2rem;
+}
+
+.sidebar-panel:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-panel .card-body {
+    overflow-y: auto;
+}
+
+/* Context Info styles */
+#contextInfo {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#contextInfo::-webkit-scrollbar {
+    width: 6px;
+}
+
+#contextInfo::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#contextInfo::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+#contextInfo::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

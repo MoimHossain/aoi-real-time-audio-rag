@@ -1,4 +1,33 @@
 ﻿
+function clearAllActivities() {    
+    const activityContainer = document.getElementById("contextInfo");
+    while (activityContainer.firstChild) {
+        activityContainer.removeChild(activityContainer.firstChild);
+    }
+}
+
+function addSearchInProgressActivity() {
+    const activityContainer = document.getElementById("contextInfo");
+    const activity = document.createElement("p");
+    activity.className = "card-text";
+    activity.innerHTML = "<strong>Searching...</strong>";
+    activityContainer.appendChild(activity);
+}
+
+function addSearchResultActivity(sourcePath, content) {
+    const activityContainer = document.getElementById("contextInfo");
+    const titleBlock = document.createElement("p");
+    titleBlock.className = "card-text";
+    titleBlock.innerHTML = `<strong>Search Result from ${sourcePath}:</strong>`;
+    activityContainer.appendChild(titleBlock);
+
+    const contentBlock = document.createElement("p");
+    contentBlock.className = "card-text";
+    contentBlock.innerHTML = content;
+    activityContainer.appendChild(contentBlock);
+}
+
+
 function showHtmlElement(id) {
     const element = document.getElementById(id);
     if (element) {
@@ -97,7 +126,9 @@ const OAI_RTC_EVENT_HANDLERS = {
         if (realtimeEvent.item && realtimeEvent.item.type === "function_call") {
             const item = realtimeEvent.item;
             if (item.name === "search") {                
-                logMessage("Searching information...", realtimeEvent);              
+                logMessage("Searching information...");
+                clearAllActivities();
+                addSearchInProgressActivity();
 
                 const response = await fetch("/api/search", {
                     method: "POST",
@@ -109,6 +140,15 @@ const OAI_RTC_EVENT_HANDLERS = {
                 if (response.ok) {                    
                     const searchResult = await response.json();
                     logMessage(searchResult);
+                    clearAllActivities();
+                    
+                    if (searchResult && searchResult.length > 0) {
+                        searchResult.forEach((item) => {
+                            addSearchResultActivity(item.sourcePage, item.content);
+                        });
+                    }
+
+
                     
                     const chatResponse = {
                         type: "conversation.item.create",

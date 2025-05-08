@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMandetoryServices(builder.Configuration);
 builder.Services.AddMandetoryServicesForWebAPI();
+builder.Services.AddAzureOpenAIServices();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

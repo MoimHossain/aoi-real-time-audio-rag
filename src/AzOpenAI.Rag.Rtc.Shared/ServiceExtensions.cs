@@ -1,5 +1,10 @@
 ﻿
 
+using AzOpenAI.Rag.Rtc.Shared.Aoi;
+using Azure;
+using Azure.AI.OpenAI;
+using Azure.Search.Documents;
+using Azure.Search.Documents.Indexes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -50,6 +55,34 @@ namespace AzOpenAI.Rag.Rtc.Shared
                 return jsonSerializerOptions;
             });
             services.AddSingleton<ConfigurationReader>();
+            return services;
+        }
+
+        public static IServiceCollection AddAzureOpenAIServices(this IServiceCollection services)
+        {
+            services.AddSingleton<AzureOpenAIConfiguration>();
+            services.AddSingleton<AzureSearchConfiguration>();
+            
+            services.AddSingleton(builder =>
+            {
+                var openAIConfig = builder.GetRequiredService<AzureOpenAIConfiguration>();
+                return new AzureOpenAIClient(
+                    new Uri(openAIConfig.Endpoint),
+                    new AzureKeyCredential(openAIConfig.Key));
+            });
+                        
+            services.AddSingleton(serviceProvider =>
+            {
+                var searchConfiguration = serviceProvider.GetRequiredService<AzureSearchConfiguration>();
+                return new SearchClient(
+                    searchConfiguration.Endpoint,
+                    searchConfiguration.IndexName,
+                    new AzureKeyCredential(searchConfiguration.Key));
+            });
+
+            services.AddSingleton<EmbeddingService>();
+            services.AddSingleton<SearchService>();
+
             return services;
         }
     }

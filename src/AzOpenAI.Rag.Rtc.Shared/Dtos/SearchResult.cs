@@ -2,5 +2,7 @@
 
 namespace AzOpenAI.Rag.Rtc.Shared.Dtos
 {
-    public record SearchResult([property: JsonPropertyName("content")] string Content);
+    public record SearchResult(
+        [property: JsonPropertyName("content")] string Content,
+        [property: JsonPropertyName("sourcePage")] string SourcePage);
 }
