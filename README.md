@@ -1,17 +1,31 @@
 # Building a Real-time Audio RAG System with Azure OpenAI and WebRTC
 
-## Introduction
+[![Open in GitHub Codespaces](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub+Codespaces&message=Open&color=brightgreen&logo=github)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&skip_quickstart=true&machine=basicLinux32gb&repo=860141324&devcontainer_path=.devcontainer%2Fdevcontainer.json&geo=WestUs2)
+[![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/MoimHossain/aoi-real-time-audio-rag)
 
-In today's enterprise environment, accessing and leveraging organizational knowledge through natural conversation is becoming increasingly important. While Microsoft provides examples of WebSocket-based implementations for real-time audio interactions with Azure OpenAI, this proof of concept demonstrates a WebRTC-based approach that offers superior throughput and lower latency, making it ideal for real-time audio applications.
+This repo contains an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. This demo uses WebRTC for real-time audio streaming and retrieval-augmented generation (RAG) to enhance the AI's responses.
 
-This article explores how to create a system that combines Azure OpenAI's capabilities with WebRTC for real-time audio communication, while implementing Retrieval-Augmented Generation (RAG) to ground the AI's responses in your enterprise data.
 
+## Screenshot
+
+![RAG Demo Screenshot](src/Screenshot.png)
+
+## Features
+
+> This proof of concept demonstrates the WebRTC based realtime RAG. For Web Socket based implementation can be found here - [https://github.com/Azure-Samples/aisearch-openai-rag-audio](https://github.com/Azure-Samples/aisearch-openai-rag-audio). 
+
+* **Voice interface**: The app uses the browser's microphone to capture voice input, and sends it to the backend where it is processed by the Azure OpenAI GPT-4o Realtime API.
+* **RAG (Retrieval Augmented Generation)**: The app uses the Azure AI Search service to answer questions about a knowledge base, and sends the retrieved documents to the GPT-4o Realtime API to generate a response.
+* **Audio output**: The app plays the response from the GPT-4o Realtime API as audio, using the browser's audio capabilities.
+* **Citations**: The app shows the search results that were used to generate the response.
 ## Architecture Overview
 
 The system consists of three main components:
 1. A web-based client interface using WebRTC for audio streaming
 2. A .NET backend that handles the Azure OpenAI integration
 3. An Azure AI Search index that stores and retrieves enterprise data
+
+> This repository assumes you have Azure Open AI with gpt-4o-mini-realtime-preview (version:2024-12-17) model deployed, and Azure AI search Index exists where Documents are vectorized already. If you want to explore how these can be accomplished please follow the instructions in this Azure Sample: [https://github.com/Azure-Samples/aisearch-openai-rag-audio](https://github.com/Azure-Samples/aisearch-openai-rag-audio). 
 
 ## Client-Side Implementation
 
@@ -182,4 +196,3 @@ This proof of concept demonstrates how to create a real-time audio RAG system us
 
 The combination of WebRTC's real-time capabilities with Azure OpenAI's language models and Azure AI Search's enterprise search capabilities creates a powerful system for enterprise knowledge access and retrieval.
 
-The complete source code for this implementation can be found at: [https://github.com/MoimHossain/aoi-real-time-audio-rag/tree/main](https://github.com/MoimHossain/aoi-real-time-audio-rag/tree/main)
