@@ -12,7 +12,7 @@ This repo contains an example of how to implement RAG support in applications th
 
 ## Features
 
-> This proof of concept demonstrates the WebRTC based realtime RAG. For Web Socket based implementation can be found here - [https://github.com/Azure-Samples/aisearch-openai-rag-audio](https://github.com/Azure-Samples/aisearch-openai-rag-audio). 
+> This proof of concept demonstrates the WebRTC based realtime RAG. Web Socket based implementation can be found here - [https://github.com/Azure-Samples/aisearch-openai-rag-audio](https://github.com/Azure-Samples/aisearch-openai-rag-audio). 
 
 * **Voice interface**: The app uses the browser's microphone to capture voice input, and sends it to the backend where it is processed by the Azure OpenAI GPT-4o Realtime API.
 * **RAG (Retrieval Augmented Generation)**: The app uses the Azure AI Search service to answer questions about a knowledge base, and sends the retrieved documents to the GPT-4o Realtime API to generate a response.
